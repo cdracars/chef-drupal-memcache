@@ -20,18 +20,18 @@ end
 #           drush en -y memcache;"
 #end
 
-template "#{ node[:drupal][:dir] }/memcache.conf" do
-  source "memcache.conf"
+template "#{ node['drupal']['dir'] }/memcache.conf" do
+  source "memcache.conf.erb"
   mode 0755
   not_if do
-    File.exists?("#{ node[:drupal][:dir] }/memcache.conf")
+    File.exists?("#{ node['drupal']['dir'] }/memcache.conf")
   end
 end
 
 execute "do stuff" do
-  cwd "#{ node[:drupal][:dir] }/sites/default"
+  cwd "#{ node['drupal']['dir'] }/sites/default"
   command "cp settings.php settings.php.tmp; \
-           cat #{ node[:drupal][:dir] }/memcache.conf >> settings.php.tmp; \
+           cat #{ node['drupal']['dir'] }/memcache.conf >> settings.php.tmp; \
            mv settings.php.tmp settings.php;"
 end
 
