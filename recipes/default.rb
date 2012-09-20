@@ -16,7 +16,7 @@ end
 
 execute "download-and-enable-memcache-module" do
   cwd "#{ node['drupal']['dir'] }/sites/default"
-  command "drush dl memcache --destination=sites/all/modules/contrib/; \
+  command "drush dl -y memcache --destination=sites/all/modules/contrib/; \
            drush en -y memcache;"
 end
 
