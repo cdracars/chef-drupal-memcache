@@ -1,4 +1,4 @@
-  // Add Memcache as the page cache handler.
-  ['cache_backends'][] = 'sites/all/modules/contrib/memcache/memcache.inc';
-  ['cache_default_class'] = 'MemCacheDrupal';
-  ['cache_class_cache_form'] = 'DrupalDatabaseCache';
+// Add Memcache as the page cache handler.
+$conf['cache_backends'][] = 'sites/all/modules/contrib/memcache/memcache.inc';
+$conf['cache_default_class'] = 'MemCacheDrupal';
+$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';

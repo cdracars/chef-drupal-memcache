@@ -14,6 +14,12 @@ php_pear "memcache" do
   action :install
 end
 
+execute "download-and-enable-memcache-module" do
+  cwd "#{ node['drupal']['dir'] }/sites/default"
+  command "drush dl memcache --destination=sites/all/modules/contrib/; \
+           drush en -y memcache;"
+end
+
 template "#{ node['drupal']['dir'] }/memcache.conf" do
   source "memcache.conf.erb"
   mode 0755
