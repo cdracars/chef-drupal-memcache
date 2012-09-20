@@ -14,12 +14,6 @@ php_pear "memcache" do
   action :install
 end
 
-#execute "download-and-enable-memcache-module" do
-#  cwd "#{ node[:drupal][:dir] }/sites/default"
-#  command "drush dl memcache; \
-#           drush en -y memcache;"
-#end
-
 template "#{ node['drupal']['dir'] }/memcache.conf" do
   source "memcache.conf.erb"
   mode 0755
@@ -28,23 +22,9 @@ template "#{ node['drupal']['dir'] }/memcache.conf" do
   end
 end
 
-execute "do stuff" do
+execute "append-memcache-config-to-bottom-of-settings.php" do
   cwd "#{ node['drupal']['dir'] }/sites/default"
-  command "cp settings.php settings.php.tmp; \
-           cat #{ node['drupal']['dir'] }/memcache.conf >> settings.php.tmp; \
-           mv settings.php.tmp settings.php;"
+  command "cp settings.php settings.php.memcache; \
+           cat #{ node['drupal']['dir'] }/memcache.conf >> settings.php.memcache; \
+           mv settings.php.memcache settings.php;"
 end
-
-#bash "append-memcache-config-to-settings.php" do
-#  cwd "#{ node[:drupal][:dir] }/sites/default"
-#  code <<-EOH
-#  cp settings.php settings.php.tmp
-#  cat <<\EOF >> settings.php.tmp
-#  // Add Memcache as the page cache handler.
-#  $conf['cache_backends'][] = 'sites/all/modules/contrib/memcache/memcache.inc';
-#  $conf['cache_default_class'] = 'MemCacheDrupal';
-#  $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';'
-#  EOF
-#  mv settings.php.tmp settings.php
-#  EOH
-#end
