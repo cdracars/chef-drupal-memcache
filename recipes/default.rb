@@ -8,8 +8,9 @@
 #
 # To-Do add attributes to abstract values
 
-include_recipe "php"
-include_recipe "memcached"
+require_recipe "drupal"
+require_recipe "memcached"
+require_recipe "php::module_memcache"
 
 execute "download-and-enable-memcache-module" do
   cwd "#{ node['drupal']['dir'] }/sites/default"
