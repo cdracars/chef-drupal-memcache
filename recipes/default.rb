@@ -31,4 +31,5 @@ execute "append-memcache-config-to-bottom-of-settings.php" do
   command "cp settings.php settings.php.memcache; \
            cat #{ node['drupal']['dir'] }/memcache.conf >> settings.php.memcache; \
            mv settings.php.memcache settings.php;"
+  not_if "grep MemCacheDrupal settings.php"
 end
