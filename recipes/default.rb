@@ -32,7 +32,7 @@ conf_plain_file "#{ node['drupal']['dir'] }/sites/default/settings.php" do
   pattern /\/\/ Add Memcache as the page cache handler./
   new_line "\n// Add Memcache as the page cache handler.
             \n$conf['cache_backends'][] = 'sites/all/modules/contrib/memcache/memcache.inc';
-            \n$conf['cache_default_class'] = 'MemCacheDrupal';
-            \n$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';"
+            $conf['cache_default_class'] = 'MemCacheDrupal';
+            $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';"
   action :insert_if_no_match
 end
