@@ -49,7 +49,7 @@ ruby_block "append-memcache-config-to-bottom-of-settings.php" do
   end
 end
 
-conf_plain_file '#{ node['drupal']['dir'] }/sites/default/settings.php' do
+conf_plain_file "#{ node['drupal']['dir'] }/sites/default/settings.php" do
   pattern /\/\/ Add Memcache as the page cache handler./
   new_line "\n// Add Memcache as the page cache handler.
             \n$conf['cache_backends'][] = 'sites/all/modules/contrib/memcache/memcache.inc';
