@@ -26,7 +26,7 @@ template "#{ node['drupal']['dir'] }/memcache.conf" do
   end
 end
 
-node['php']['directives']['extension'] = ['memcached.so']
+node.default['php']['directives']['extension'] = ['memcached.so']
 
 #execute "append-memcache-config-to-bottom-of-settings.php" do
 #  cwd "#{ node['drupal']['dir'] }/sites/default"
