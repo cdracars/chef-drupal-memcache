@@ -48,3 +48,12 @@ ruby_block "append-memcache-config-to-bottom-of-settings.php" do
     file.write_file
   end
 end
+
+conf_plain_file '/usr/local/zend/etc/php.ini' do
+  pattern /\/\/ Add Memcache as the page cache handler./
+  new_line "\n// Add Memcache as the page cache handler.
+            \n$conf['cache_backends'][] = 'sites/all/modules/contrib/memcache/memcache.inc';
+            \n$conf['cache_default_class'] = 'MemCacheDrupal';
+            \n$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';"
+  action :insert_if_no_match
+end
