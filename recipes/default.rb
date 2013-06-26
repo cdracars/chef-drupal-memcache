@@ -38,9 +38,9 @@ node.default['php']['directives']['extension'] = ['memcached.so']
 
 ruby_block "append-memcache-config-to-bottom-of-settings.php" do
   block do
-    file = Chef::Util::FileEdit.new("#{ node['drupal']['dir'] }/memcache.conf")
+    file = Chef::Util::FileEdit.new("#{ node['drupal']['dir'] }/sites/default/settings.php")
     file.insert_line_if_no_match(
-      "// Add Memcache as the page cache handler.",
+      "// Add Memcache as the page cache handler from ruby.",
       "\n$conf['cache_backends'][] = 'sites/all/modules/contrib/memcache/memcache.inc';
        \n$conf['cache_default_class'] = 'MemCacheDrupal';
        \n$conf['cache_class_cache_form'] = 'DrupalDatabaseCache';"
@@ -49,7 +49,7 @@ ruby_block "append-memcache-config-to-bottom-of-settings.php" do
   end
 end
 
-conf_plain_file '/usr/local/zend/etc/php.ini' do
+conf_plain_file '#{ node['drupal']['dir'] }/sites/default/settings.php' do
   pattern /\/\/ Add Memcache as the page cache handler./
   new_line "\n// Add Memcache as the page cache handler.
             \n$conf['cache_backends'][] = 'sites/all/modules/contrib/memcache/memcache.inc';
