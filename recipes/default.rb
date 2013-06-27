@@ -12,18 +12,16 @@ include_recipe "drupal"
 include_recipe "memcached"
 include_recipe "php::module_memcache"
 
-execute "download-and-enable-memcache-module" do
+execute "download-memcache-module" do
   cwd "#{ node['drupal']['dir'] }/sites/default"
-  command "drush dl -y memcache --destination=sites/all/modules/contrib/; \
-           drush en -y memcache;"
+  command "drush dl -y memcache --destination=sites/all/modules/contrib/;"
+  not_if "drush pml --no-core --type=module | grep memcache"
 end
 
-template "#{ node['drupal']['dir'] }/memcache.conf" do
-  source "memcache.conf.erb"
-  mode 0755
-  not_if do
-    File.exists?("#{ node['drupal']['dir'] }/memcache.conf")
-  end
+execute "enable-memcache-module" do
+  cwd "#{ node['drupal']['dir'] }/sites/default"
+  command "drush en -y memcache;"
+  not_if "drush pml --no-core --type=module --status=enabled | grep memcache"
 end
 
 node.default['php']['directives']['extension'] = ['memcached.so']
